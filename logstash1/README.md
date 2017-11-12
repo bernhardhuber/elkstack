@@ -6,6 +6,6 @@ in `src/main/resources/conf`.
 You may use these configurtions like
 `logstash -f <path-to>/src/main/resources/conf/<configurationfile>`.
 
-You may use all the configuration files using wildcart pattern like
+You may use all the configuration files using wildcard pattern like
 `logstash -f <path-to>/src/main/resources/conf/*.conf`.
 
