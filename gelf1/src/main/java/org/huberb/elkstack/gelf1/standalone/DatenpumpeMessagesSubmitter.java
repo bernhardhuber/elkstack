@@ -19,6 +19,6 @@ public class DatenpumpeMessagesSubmitter {
     public void submitMessage(final Datenpumpe datenpumpe, final String m) {
         final Map<String, Object> message = new HashMap<String, Object>();
         message.put("message", m);
-        datenpumpe.submit((Map) message);
+        datenpumpe.submit(message);
     }
 }

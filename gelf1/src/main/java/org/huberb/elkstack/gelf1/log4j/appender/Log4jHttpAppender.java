@@ -96,7 +96,7 @@ public class Log4jHttpAppender extends AppenderSkeleton {
                 outputStream.write(formattedEvent.getBytes());
             }
             final int responseCode = connection.getResponseCode();
-            if (responseCode >= 200 && responseCode <= 299) {
+            if (responseCode >= HTTP_SUCCESSFUL_LOWER_BOUND && responseCode <= HTTP_SUCCESSFUL_UPPER_BOUND) {
                 return;
             }
             this.errorHandler.error("Server responded with unexpected status code: " + responseCode);

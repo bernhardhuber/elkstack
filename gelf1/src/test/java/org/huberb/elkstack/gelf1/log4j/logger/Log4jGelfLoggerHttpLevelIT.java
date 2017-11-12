@@ -16,7 +16,6 @@
 package org.huberb.elkstack.gelf1.log4j.logger;
 
 import org.junit.Test;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Priority;
 import org.huberb.elkstack.gelf1.GeneratorVaryingString;
@@ -40,7 +39,10 @@ public class Log4jGelfLoggerHttpLevelIT
     
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttplevelit").category(Log4jGelfLoggerHttpLevelIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttplevelit").
+                category(Log4jGelfLoggerHttpLevelIT.class.getName()).
+                build();
     }
     
     @After

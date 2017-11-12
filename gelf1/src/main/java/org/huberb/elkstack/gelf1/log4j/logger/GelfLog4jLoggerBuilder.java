@@ -15,7 +15,6 @@
  */
 package org.huberb.elkstack.gelf1.log4j.logger;
 
-import org.apache.log4j.Appender;
 import biz.paluch.logging.gelf.log4j.GelfLogAppender;
 import org.apache.log4j.Logger;
 import org.huberb.elkstack.gelf1.Configuration;
@@ -82,7 +81,7 @@ public class GelfLog4jLoggerBuilder {
         gelfAppender.setName("gelfAppender");
         gelfAppender.activateOptions();
         final Logger logger = Logger.getLogger(this.category);
-        logger.addAppender((Appender) gelfAppender);
+        logger.addAppender(gelfAppender);
         return logger;
     }
 }

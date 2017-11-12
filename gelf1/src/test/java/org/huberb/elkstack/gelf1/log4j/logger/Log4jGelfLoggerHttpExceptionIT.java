@@ -34,7 +34,10 @@ public class Log4jGelfLoggerHttpExceptionIT {
 
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpexceptionit").category(Log4jGelfLoggerHttpExceptionIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpexceptionit").
+                category(Log4jGelfLoggerHttpExceptionIT.class.getName()).
+                build();
     }
 
     @After

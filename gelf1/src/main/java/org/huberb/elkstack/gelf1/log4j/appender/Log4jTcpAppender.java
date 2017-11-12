@@ -92,8 +92,8 @@ public class Log4jTcpAppender extends AppenderSkeleton {
         final String formattedEvent = this.layout.format(event);
         try (final Socket socket = new Socket()) {
             final SocketAddress endpoint = new InetSocketAddress(this.host, this.port);
-            socket.connect(endpoint, this.connectTimeout);
             socket.setSoTimeout(this.readTimeout);
+            socket.connect(endpoint, this.connectTimeout);
             final OutputStream os = socket.getOutputStream();
             os.write(formattedEvent.getBytes());
         } catch (IllegalBlockingModeException | IllegalArgumentException | IOException ex) {

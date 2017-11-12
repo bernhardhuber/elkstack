@@ -34,7 +34,10 @@ public class Log4jGelfLoggerHttpIT
     
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpit").category(Log4jGelfLoggerHttpIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpit").
+                category(Log4jGelfLoggerHttpIT.class.getName()).
+                build();
     }
     
     @After

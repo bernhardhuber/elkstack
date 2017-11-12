@@ -35,7 +35,10 @@ public class Log4jGelfLoggerHttpStressIT {
 
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpstressit").category(Log4jGelfLoggerHttpStressIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpstressit").
+                category(Log4jGelfLoggerHttpStressIT.class.getName()).
+                build();
     }
 
     @After

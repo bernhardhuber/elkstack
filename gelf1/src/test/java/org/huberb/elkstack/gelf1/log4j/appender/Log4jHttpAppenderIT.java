@@ -20,8 +20,6 @@ import org.huberb.elkstack.gelf1.StringTemplates;
 import org.junit.After;
 import org.junit.Before;
 import java.net.MalformedURLException;
-import org.apache.log4j.Appender;
-import org.apache.log4j.Layout;
 import biz.paluch.logging.gelf.log4j.GelfLayout;
 import org.huberb.elkstack.gelf1.Configuration;
 import org.apache.log4j.Logger;

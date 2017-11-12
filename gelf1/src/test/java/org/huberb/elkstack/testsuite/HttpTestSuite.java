@@ -21,11 +21,12 @@ import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerHttpExceptionIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerHttpLevelIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerHttpStressIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerHttpVaryStressIT;
+import org.huberb.elkstack.gelf1.standalone.DatenpumpeHttpMessagesSubmitterIT;
 import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
 
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite.SuiteClasses({DatenpumpeHttpMessagesSubmitterIT.class,
     Log4jHttpAppenderIT.class,
     Log4jHttpAppenderStressIT.class,
     Log4jGelfLoggerHttpStressIT.class,

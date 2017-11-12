@@ -36,7 +36,7 @@ public class GeneratorVaryingString {
         final String wordDelim = " \t\r\n";
         final List<String> mSplittedList = Arrays.asList(StringUtils.split(m, wordDelim));
         Collections.shuffle(mSplittedList);
-        final String mShuffeled = StringUtils.join((Iterable) mSplittedList, " ");
+        final String mShuffeled = StringUtils.join(mSplittedList, " ");
         return mShuffeled;
     }
 }

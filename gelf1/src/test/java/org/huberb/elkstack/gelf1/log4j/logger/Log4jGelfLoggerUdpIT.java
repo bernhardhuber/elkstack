@@ -34,7 +34,11 @@ public class Log4jGelfLoggerUdpIT
     
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getUdpHost()).port(new Configuration().getUdpPort()).category(Log4jGelfLoggerUdpIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getUdpHost()).
+                port(new Configuration().getUdpPort()).
+                category(Log4jGelfLoggerUdpIT.class.getName()).
+                build();
     }
     
     @After

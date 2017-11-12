@@ -33,7 +33,11 @@ public class Log4jGelfLoggerUdpExceptionIT {
 
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getUdpHost()).port(new Configuration().getUdpPort()).category(Log4jGelfLoggerUdpExceptionIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getUdpHost()).
+                port(new Configuration().getUdpPort()).
+                category(Log4jGelfLoggerUdpExceptionIT.class.getName()).
+                build();
     }
 
     @Test

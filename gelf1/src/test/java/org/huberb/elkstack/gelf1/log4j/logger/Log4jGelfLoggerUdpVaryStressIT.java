@@ -40,7 +40,11 @@ public class Log4jGelfLoggerUdpVaryStressIT
     
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().host(new Configuration().getUdpHost()).port(new Configuration().getUdpPort()).category(Log4jGelfLoggerUdpVaryStressIT.class.getName()).build();
+        this.instance = new GelfLog4jLoggerBuilder().
+                host(new Configuration().getUdpHost()).
+                port(new Configuration().getUdpPort()).
+                category(Log4jGelfLoggerUdpVaryStressIT.class.getName()).
+                build();
     }
     
     @After
