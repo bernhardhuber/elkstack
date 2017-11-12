@@ -26,6 +26,21 @@ import org.apache.log4j.AppenderSkeleton;
 
 /**
  * A simple log4j tcp appender using log4-format.
+ *
+ * Configuration options:
+ * <ul>
+ * <li>Host - mandatory - host to connect to
+ * </li>
+ * <li>Port - mandatory - port to connect to
+ * </li>
+ * <li>ConnectTimeout- optional - timeout to connect to remote host, defaults to
+ * 500ms
+ * </li>
+ * <li>ReadTimeout - optional - timout to read from remote host, defaults to
+ * 500ms
+ * </li>
+ * </ul>
+ *
  * @author berni3
  */
 public class Log4jTcpAppender extends AppenderSkeleton {

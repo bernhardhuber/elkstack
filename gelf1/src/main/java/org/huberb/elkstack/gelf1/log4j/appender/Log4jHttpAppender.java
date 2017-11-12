@@ -26,6 +26,18 @@ import org.apache.log4j.AppenderSkeleton;
 /**
  * A simple log4j http appender using log4j formatter.
  *
+ * Configuration options:
+ * <ul>
+ * <li>Url - mandatory - http url to post the formatted LogEvent to
+ * </li>
+ * <li>ConnectTimeout- optional - timeout to connect to remote host, defaults to
+ * 500ms
+ * </li>
+ * <li>ReadTimeout - optional - timout to read from remote host, defaults to
+ * 500ms
+ * </li>
+ * </ul>
+ *
  * @author berni3
  */
 public class Log4jHttpAppender extends AppenderSkeleton {
