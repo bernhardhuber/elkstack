@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huberb.elkstack.log4j2;
+package org.huberb.elkstack.gelf1.log4j2;
 
 import org.junit.Test;
 import org.apache.logging.log4j.Logger;

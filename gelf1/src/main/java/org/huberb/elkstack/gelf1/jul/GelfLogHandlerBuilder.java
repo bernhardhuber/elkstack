@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huberb.elkstack.gelf1.standalone.wildfly;
+package org.huberb.elkstack.gelf1.jul;
 
-import biz.paluch.logging.gelf.wildfly.WildFlyGelfLogHandler;
+import biz.paluch.logging.gelf.jul.GelfLogHandler;
 import java.util.logging.Level;
 import org.huberb.elkstack.gelf1.Configuration;
 
@@ -23,29 +23,29 @@ import org.huberb.elkstack.gelf1.Configuration;
  *
  * @author berni3
  */
-public class WildFlyGelfLogHandlerBuilder {
+public class GelfLogHandlerBuilder {
 
     private String host = new Configuration().getUdpHost();
     private int port = new Configuration().getUdpPort();
     private Level level = Level.ALL;
 
-    public WildFlyGelfLogHandlerBuilder host(String host) {
+    public GelfLogHandlerBuilder host(String host) {
         this.host = host;
         return this;
     }
 
-    public WildFlyGelfLogHandlerBuilder port(int port) {
+    public GelfLogHandlerBuilder port(int port) {
         this.port = port;
         return this;
     }
 
-    public WildFlyGelfLogHandlerBuilder level(Level level) {
+    public GelfLogHandlerBuilder level(Level level) {
         this.level = level;
         return this;
     }
 
-    public WildFlyGelfLogHandler build() {
-        WildFlyGelfLogHandler gelfLogHandler = new WildFlyGelfLogHandler();
+    public GelfLogHandler build() {
+        GelfLogHandler gelfLogHandler = new GelfLogHandler();
         gelfLogHandler.setHost(host);
         gelfLogHandler.setPort(port);
         gelfLogHandler.setLevel(level);

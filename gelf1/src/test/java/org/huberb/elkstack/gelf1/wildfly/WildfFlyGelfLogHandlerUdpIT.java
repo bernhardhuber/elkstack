@@ -20,7 +20,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.huberb.elkstack.gelf1.Configuration;
 import org.huberb.elkstack.gelf1.StringTemplates;
-import org.huberb.elkstack.gelf1.standalone.wildfly.WildFlyGelfLogHandlerBuilder;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;

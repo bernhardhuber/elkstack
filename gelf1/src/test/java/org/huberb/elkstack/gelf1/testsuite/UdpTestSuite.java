@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huberb.elkstack.testsuite;
+package org.huberb.elkstack.gelf1.testsuite;
 
 import org.huberb.elkstack.gelf1.jul.JulGelfLogHandlerUdpIT;
-import org.huberb.elkstack.log4j2.Log4j2Log4j2XmlIT;
+import org.huberb.elkstack.gelf1.log4j2.Log4j2Log4j2XmlIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpLevelIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpExceptionIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpVaryStressIT;

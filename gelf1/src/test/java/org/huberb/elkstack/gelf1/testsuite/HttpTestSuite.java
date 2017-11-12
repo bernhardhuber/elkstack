@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.huberb.elkstack.testsuite;
+package org.huberb.elkstack.gelf1.testsuite;
 
 import org.huberb.elkstack.gelf1.log4j.appender.Log4jHttpAppenderIT;
 import org.huberb.elkstack.gelf1.log4j.appender.Log4jHttpAppenderStressIT;
