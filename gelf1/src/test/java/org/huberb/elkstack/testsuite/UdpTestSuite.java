@@ -15,6 +15,7 @@
  */
 package org.huberb.elkstack.testsuite;
 
+import org.huberb.elkstack.gelf1.jul.JulGelfLogHandlerUdpIT;
 import org.huberb.elkstack.log4j2.Log4j2Log4j2XmlIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpLevelIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpExceptionIT;
@@ -22,6 +23,7 @@ import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpVaryStressIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpStressIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpIT;
 import org.huberb.elkstack.gelf1.standalone.DatenpumpeUdpMessagesSubmitterIT;
+import org.huberb.elkstack.gelf1.wildfly.WildfFlyGelfLogHandlerUdpIT;
 import org.junit.runners.Suite;
 import org.junit.runner.RunWith;
 
@@ -32,6 +34,9 @@ import org.junit.runner.RunWith;
     Log4jGelfLoggerUdpVaryStressIT.class,
     Log4jGelfLoggerUdpExceptionIT.class,
     Log4jGelfLoggerUdpLevelIT.class,
-    Log4j2Log4j2XmlIT.class})
+    Log4j2Log4j2XmlIT.class,
+    JulGelfLogHandlerUdpIT.class,
+    WildfFlyGelfLogHandlerUdpIT.class
+})
 public class UdpTestSuite {
 }
