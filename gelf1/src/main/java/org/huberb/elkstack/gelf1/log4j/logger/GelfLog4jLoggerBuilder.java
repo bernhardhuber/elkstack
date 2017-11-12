@@ -22,6 +22,11 @@ import org.huberb.elkstack.gelf1.Configuration;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
 
+/**
+ * A very simple log4j Logger builder using GelfLogAppender as it sole appender.
+ *
+ * @author berni3
+ */
 public class GelfLog4jLoggerBuilder {
 
     private Priority threshold;
@@ -36,7 +41,7 @@ public class GelfLog4jLoggerBuilder {
     private boolean includeFullMdc;
 
     public GelfLog4jLoggerBuilder() {
-        this.threshold = (Priority) Level.TRACE;
+        this.threshold = Level.TRACE;
         this.category = "gelflog4j";
         this.host = new Configuration().getUdpHost();
         this.port = new Configuration().getUdpPort();

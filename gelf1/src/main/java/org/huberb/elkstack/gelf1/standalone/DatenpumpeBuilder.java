@@ -13,6 +13,11 @@ import java.util.HashMap;
 import org.huberb.elkstack.gelf1.Configuration;
 import java.util.Map;
 
+/**
+ * A very simple Datenpumpe builder.
+ * 
+ * @author berni3
+ */
 public class DatenpumpeBuilder {
 
     private String host;

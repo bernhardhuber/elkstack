@@ -17,6 +17,11 @@ package org.huberb.elkstack.gelf1.log4j.logger;
 
 import biz.paluch.logging.gelf.log4j.GelfLayout;
 
+/**
+ * A very simple log4j GelfLayout builder.
+ * 
+ * @author berni3
+ */
 public class GelfLog4jLayoutBuilder {
 
     public GelfLayout build() {

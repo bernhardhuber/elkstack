@@ -9,6 +9,11 @@ import java.util.Map;
 import java.util.HashMap;
 import biz.paluch.logging.gelf.standalone.Datenpumpe;
 
+/**
+ * A very simple Datenpumpe message-submitter.
+ *
+ * @author berni3
+ */
 public class DatenpumpeMessagesSubmitter {
 
     public void submitMessage(final Datenpumpe datenpumpe, final String m) {
