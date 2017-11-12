@@ -21,7 +21,7 @@ public class Configuration {
     private final int httpPort = 12202;
     private final int tcpPort = 12203;
     private final String udpHost = "udp:localhost";
-    private final String httpHostPort = "http://localhost:12202/";
+    private final String httpHostPort = "http://localhost:" + httpPort + "/";
     private final String tcpHost = "localhost";
 
     public int getUdpPort() {
