@@ -24,6 +24,8 @@ The integrations tests uses following logging-frameworks
 * Datenpumpe 
 * Log4j
 * Log4j2
+* JavaUtilLogging
+* Wildfly
 
 The integrations tests send following log-messages
 
