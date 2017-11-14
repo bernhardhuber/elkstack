@@ -15,6 +15,7 @@
  */
 package org.huberb.elkstack.gelf1.log4j.logger;
 
+import org.huberb.elkstack.gelf1.log4j.appender.Log4jLoggerBuilder;
 import org.junit.Test;
 import org.huberb.elkstack.gelf1.StringTemplates;
 import org.junit.Before;
@@ -33,10 +34,11 @@ public class Log4jGelfLoggerUdpExceptionIT {
 
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().
-                host(new Configuration().getUdpHost()).
-                port(new Configuration().getUdpPort()).
-                category(Log4jGelfLoggerUdpExceptionIT.class.getName()).
+        this.instance = new Log4jLoggerBuilder().
+                category(this.getClass().getName()).
+                appender(new GelfLog4jAppenderBuilder().
+                        host(new Configuration().getUdpHost()).
+                        port(new Configuration().getUdpPort()).build()).
                 build();
     }
 

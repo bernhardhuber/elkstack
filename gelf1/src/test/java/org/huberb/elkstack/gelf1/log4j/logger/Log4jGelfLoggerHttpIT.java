@@ -15,6 +15,7 @@
  */
 package org.huberb.elkstack.gelf1.log4j.logger;
 
+import org.huberb.elkstack.gelf1.log4j.appender.Log4jLoggerBuilder;
 import org.junit.Test;
 import org.huberb.elkstack.gelf1.StringTemplates;
 import org.junit.After;
@@ -23,31 +24,33 @@ import org.huberb.elkstack.gelf1.Configuration;
 import org.junit.BeforeClass;
 import org.apache.log4j.Logger;
 
-public class Log4jGelfLoggerHttpIT
-{
+public class Log4jGelfLoggerHttpIT {
+
     private Logger instance;
-    
+
     @BeforeClass
     public static void setUpClass() {
         System.setProperty("logstash-gelf.skipHostnameResolution", "true");
     }
-    
+
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().
-                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpit").
-                category(Log4jGelfLoggerHttpIT.class.getName()).
+        this.instance = new Log4jLoggerBuilder().
+                category(this.getClass().getName()).
+                appender(new GelfLog4jAppenderBuilder().
+                        host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttpit").
+                        build()).
                 build();
     }
-    
+
     @After
     public void tearDown() {
         this.instance.removeAllAppenders();
     }
-    
+
     @Test
     public void testHelloWorld() {
         final String message = new StringTemplates().getHelloWorldTemplate();
-        this.instance.info((Object)message);
+        this.instance.info((Object) message);
     }
 }

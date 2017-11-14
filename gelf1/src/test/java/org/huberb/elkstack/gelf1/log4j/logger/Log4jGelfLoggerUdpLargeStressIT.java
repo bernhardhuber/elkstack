@@ -1,0 +1,93 @@
+/*
+ * Copyright 2017 berni3.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.huberb.elkstack.gelf1.log4j.logger;
+
+import org.huberb.elkstack.gelf1.log4j.appender.Log4jLoggerBuilder;
+import org.junit.Test;
+import org.huberb.elkstack.gelf1.StringTemplates;
+import org.huberb.elkstack.gelf1.GeneratorVaryingString;
+import org.junit.After;
+import org.junit.Before;
+import org.huberb.elkstack.gelf1.Configuration;
+import org.junit.BeforeClass;
+import org.apache.log4j.Logger;
+
+public class Log4jGelfLoggerUdpLargeStressIT {
+
+    private Logger instance;
+    private int baseMaxSize;
+
+    public Log4jGelfLoggerUdpLargeStressIT() {
+        this.baseMaxSize = 1024;
+    }
+
+    @BeforeClass
+    public static void setUpClass() {
+        System.setProperty("logstash-gelf.skipHostnameResolution", "true");
+    }
+
+    @Before
+    public void setUp() {
+        this.instance = new Log4jLoggerBuilder().
+                category(this.getClass().getName()).
+                appender(new GelfLog4jAppenderBuilder().
+                        host(new Configuration().getUdpHost()).
+                        port(new Configuration().getUdpPort()).build()).
+                build();
+    }
+
+    @After
+    public void tearDown() {
+        this.instance.removeAllAppenders();
+    }
+
+    @Test
+    public void testSubmitMessage_LargeMessage_64K() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getTheQuickBrownFoxTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getLoremIpsumTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getAtVeroTemplate()));
+
+        final String m = new GeneratorVaryingString().generateVaryMaxSize(sb.toString(), 64 * this.baseMaxSize);
+
+        this.instance.info((Object) m);
+    }
+
+    @Test
+    public void testSubmitMessage_LargeMessage_128K() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getTheQuickBrownFoxTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getLoremIpsumTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getAtVeroTemplate()));
+
+        final String m = new GeneratorVaryingString().generateVaryMaxSize(sb.toString(), 128 * this.baseMaxSize);
+
+        this.instance.info((Object) m);
+    }
+
+    @Test
+    public void testSubmitMessage_LargeMessage_256K() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getTheQuickBrownFoxTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getLoremIpsumTemplate()));
+        sb.append(new GeneratorVaryingString().generateVaryWords(new StringTemplates().getAtVeroTemplate()));
+
+        final String m = new GeneratorVaryingString().generateVaryMaxSize(sb.toString(), 256 * this.baseMaxSize);
+
+        this.instance.info((Object) m);
+    }
+
+}

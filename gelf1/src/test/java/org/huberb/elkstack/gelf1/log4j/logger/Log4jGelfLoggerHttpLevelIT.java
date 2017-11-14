@@ -15,6 +15,7 @@
  */
 package org.huberb.elkstack.gelf1.log4j.logger;
 
+import org.huberb.elkstack.gelf1.log4j.appender.Log4jLoggerBuilder;
 import org.junit.Test;
 import java.util.List;
 import org.apache.log4j.Priority;
@@ -28,28 +29,30 @@ import org.huberb.elkstack.gelf1.Configuration;
 import org.junit.BeforeClass;
 import org.apache.log4j.Logger;
 
-public class Log4jGelfLoggerHttpLevelIT
-{
+public class Log4jGelfLoggerHttpLevelIT {
+
     private Logger instance;
-    
+
     @BeforeClass
     public static void setUpClass() {
         System.setProperty("logstash-gelf.skipHostnameResolution", "true");
     }
-    
+
     @Before
     public void setUp() {
-        this.instance = new GelfLog4jLoggerBuilder().
-                host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttplevelit").
-                category(Log4jGelfLoggerHttpLevelIT.class.getName()).
+        this.instance = new Log4jLoggerBuilder().
+                category(this.getClass().getName()).
+                appender(new GelfLog4jAppenderBuilder().
+                        host(new Configuration().getHttpHostPort() + "/log4jgelfloggerhttplevelit").
+                        build()).
                 build();
     }
-    
+
     @After
     public void tearDown() {
         this.instance.removeAllAppenders();
     }
-    
+
     @Test
     public void testSubmitMessage_Level() {
         final String template = new StringTemplates().getLoremIpsumTemplate();
@@ -57,7 +60,7 @@ public class Log4jGelfLoggerHttpLevelIT
         for (final Level level : allLevels) {
             for (int i = 0; i < 10; ++i) {
                 final String m = new GeneratorVaryingString().generateVaryMaxSize(template, 2048);
-                this.instance.log((Priority)level, (Object)m);
+                this.instance.log((Priority) level, (Object) m);
             }
         }
     }

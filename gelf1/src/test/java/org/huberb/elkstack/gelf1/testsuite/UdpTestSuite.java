@@ -22,6 +22,7 @@ import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpExceptionIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpVaryStressIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpStressIT;
 import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpIT;
+import org.huberb.elkstack.gelf1.log4j.logger.Log4jGelfLoggerUdpLargeStressIT;
 import org.huberb.elkstack.gelf1.standalone.DatenpumpeUdpMessagesSubmitterIT;
 import org.huberb.elkstack.gelf1.wildfly.WildfFlyGelfLogHandlerUdpIT;
 import org.junit.runners.Suite;
@@ -32,6 +33,7 @@ import org.junit.runner.RunWith;
     Log4jGelfLoggerUdpIT.class,
     Log4jGelfLoggerUdpStressIT.class,
     Log4jGelfLoggerUdpVaryStressIT.class,
+    Log4jGelfLoggerUdpLargeStressIT.class,
     Log4jGelfLoggerUdpExceptionIT.class,
     Log4jGelfLoggerUdpLevelIT.class,
     Log4j2Log4j2XmlIT.class,

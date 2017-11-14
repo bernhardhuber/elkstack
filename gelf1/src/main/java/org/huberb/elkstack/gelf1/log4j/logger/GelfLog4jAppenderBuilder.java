@@ -16,7 +16,6 @@
 package org.huberb.elkstack.gelf1.log4j.logger;
 
 import biz.paluch.logging.gelf.log4j.GelfLogAppender;
-import org.apache.log4j.Logger;
 import org.huberb.elkstack.gelf1.Configuration;
 import org.apache.log4j.Level;
 import org.apache.log4j.Priority;
@@ -26,48 +25,76 @@ import org.apache.log4j.Priority;
  *
  * @author berni3
  */
-public class GelfLog4jLoggerBuilder {
+public class GelfLog4jAppenderBuilder {
 
     private Priority threshold;
-    private String category;
     private String host;
     private int port;
     private String version;
     private String facility;
     private String extractStackTrace;
-    private String filterStackTrace;
+    private boolean filterStackTrace;
     private int maximumMessageSize;
     private boolean includeFullMdc;
 
-    public GelfLog4jLoggerBuilder() {
-        this.threshold = Level.TRACE;
-        this.category = "gelflog4j";
+    public GelfLog4jAppenderBuilder() {
+        this.threshold = Level.ALL;
         this.host = new Configuration().getUdpHost();
         this.port = new Configuration().getUdpPort();
-        this.version = "1.0";
+        this.version = "1.1";
         this.facility = "gelf-log4j";
         this.extractStackTrace = "true";
-        this.filterStackTrace = "true";
+        this.filterStackTrace = true;
         this.maximumMessageSize = 8192;
         this.includeFullMdc = true;
     }
 
-    public GelfLog4jLoggerBuilder host(final String host) {
+    public GelfLog4jAppenderBuilder threshold(Priority threshold) {
+        this.threshold = threshold;
+        return this;
+    }
+
+    public GelfLog4jAppenderBuilder host(final String host) {
         this.host = host;
         return this;
     }
 
-    public GelfLog4jLoggerBuilder port(final int port) {
+    public GelfLog4jAppenderBuilder port(final int port) {
         this.port = port;
         return this;
     }
 
-    public GelfLog4jLoggerBuilder category(final String category) {
-        this.category = category;
+    public GelfLog4jAppenderBuilder version(String version) {
+        this.version = version;
         return this;
     }
 
-    public Logger build() {
+    public GelfLog4jAppenderBuilder facility(String facility) {
+        this.facility = facility;
+        return this;
+    }
+
+    public GelfLog4jAppenderBuilder extractStackTrace(String extractStackTrace) {
+        this.extractStackTrace = extractStackTrace;
+        return this;
+    }
+
+    public GelfLog4jAppenderBuilder filterStackTrace(boolean filterStackTrace) {
+        this.filterStackTrace = filterStackTrace;
+        return this;
+    }
+
+    public GelfLog4jAppenderBuilder maximumMessageSize(int maximumMessageSize) {
+        this.maximumMessageSize = maximumMessageSize;
+        return this;
+    }
+
+    public GelfLog4jAppenderBuilder includeFullMdc(boolean includeFullMdc) {
+        this.includeFullMdc = includeFullMdc;
+        return this;
+    }
+
+    public GelfLogAppender build() {
         final GelfLogAppender gelfAppender = new GelfLogAppender();
         gelfAppender.setThreshold(this.threshold);
         gelfAppender.setHost(this.host);
@@ -75,13 +102,11 @@ public class GelfLog4jLoggerBuilder {
         gelfAppender.setVersion(this.version);
         gelfAppender.setFacility(this.facility);
         gelfAppender.setExtractStackTrace(this.extractStackTrace);
-        gelfAppender.setFilterStackTrace(true);
+        gelfAppender.setFilterStackTrace(this.filterStackTrace);
         gelfAppender.setMaximumMessageSize(this.maximumMessageSize);
         gelfAppender.setIncludeFullMdc(this.includeFullMdc);
         gelfAppender.setName("gelfAppender");
         gelfAppender.activateOptions();
-        final Logger logger = Logger.getLogger(this.category);
-        logger.addAppender(gelfAppender);
-        return logger;
+        return gelfAppender;
     }
 }
