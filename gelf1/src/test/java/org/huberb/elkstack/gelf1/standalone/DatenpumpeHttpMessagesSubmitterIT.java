@@ -23,29 +23,30 @@ import org.junit.Before;
 import org.huberb.elkstack.gelf1.Configuration;
 import biz.paluch.logging.gelf.standalone.Datenpumpe;
 
-public class DatenpumpeHttpMessagesSubmitterIT
-{
+public class DatenpumpeHttpMessagesSubmitterIT {
+
     private Datenpumpe datenpumpe;
-    
+    private StoringErrorReporter storingErrorReporter;
+
     @Before
     public void setUp() {
+        storingErrorReporter = new StoringErrorReporter();
         this.datenpumpe = new DatenpumpeBuilder().
                 host(new Configuration().getHttpHostPort() + "/datenpumpehttpmessagessubmitterit").
-                specificConfiguration("version", (Object)"1.1").
+                specificConfiguration("version", (Object) "1.0").
+                errorReporter(storingErrorReporter).
                 build();
     }
-    
-    @After
-    public void tearDown() {
-    }
-    
+
     @Test
     public void testSubmitMessage() {
         final DatenpumpeMessagesSubmitter instance = new DatenpumpeMessagesSubmitter();
         final String message = new StringTemplates().getHelloWorldTemplate();
         instance.submitMessage(this.datenpumpe, message);
+
+        storingErrorReporter.assertReportErrorListEmpty();
     }
-    
+
     @Test
     public void testSubmitMessage_10() {
         final DatenpumpeMessagesSubmitter instance = new DatenpumpeMessagesSubmitter();
@@ -54,5 +55,6 @@ public class DatenpumpeHttpMessagesSubmitterIT
             final String m = new GeneratorVaryingString().generateVaryMaxSize(message, 1028);
             instance.submitMessage(this.datenpumpe, m);
         }
+        storingErrorReporter.assertReportErrorListEmpty();
     }
 }

@@ -18,35 +18,35 @@ package org.huberb.elkstack.gelf1.standalone;
 import org.huberb.elkstack.gelf1.GeneratorVaryingString;
 import org.junit.Test;
 import org.huberb.elkstack.gelf1.StringTemplates;
-import org.junit.After;
 import org.junit.Before;
 import org.huberb.elkstack.gelf1.Configuration;
 import biz.paluch.logging.gelf.standalone.Datenpumpe;
 
-public class DatenpumpeUdpMessagesSubmitterIT
-{
+public class DatenpumpeUdpMessagesSubmitterIT {
+
     private Datenpumpe datenpumpe;
-    
+    StoringErrorReporter storingErrorReporter;
+
     @Before
     public void setUp() {
+        storingErrorReporter = new StoringErrorReporter();
         this.datenpumpe = new DatenpumpeBuilder().
                 host(new Configuration().getUdpHost()).
                 port(new Configuration().getUdpPort()).
-                specificConfiguration("version", (Object)"1.1").
+                specificConfiguration("version", (Object) "1.0").
+                errorReporter(storingErrorReporter).
                 build();
     }
-    
-    @After
-    public void tearDown() {
-    }
-    
+
     @Test
     public void testSubmitMessage() {
         final DatenpumpeMessagesSubmitter instance = new DatenpumpeMessagesSubmitter();
         final String message = new StringTemplates().getHelloWorldTemplate();
+
         instance.submitMessage(this.datenpumpe, message);
+        storingErrorReporter.assertReportErrorListEmpty();
     }
-    
+
     @Test
     public void testSubmitMessage_10() {
         final DatenpumpeMessagesSubmitter instance = new DatenpumpeMessagesSubmitter();
@@ -55,5 +55,7 @@ public class DatenpumpeUdpMessagesSubmitterIT
             final String m = new GeneratorVaryingString().generateVaryMaxSize(message, 1028);
             instance.submitMessage(this.datenpumpe, m);
         }
+        storingErrorReporter.assertReportErrorListEmpty();
     }
+
 }

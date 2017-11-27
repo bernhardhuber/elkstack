@@ -49,6 +49,8 @@ public class WildFlyGelfLogHandlerBuilder {
         gelfLogHandler.setHost(host);
         gelfLogHandler.setPort(port);
         gelfLogHandler.setLevel(level);
+        gelfLogHandler.setVersion("1.0");
+        
         return gelfLogHandler;
     }
 }

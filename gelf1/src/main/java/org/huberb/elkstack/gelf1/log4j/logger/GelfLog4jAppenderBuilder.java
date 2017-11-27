@@ -41,7 +41,7 @@ public class GelfLog4jAppenderBuilder {
         this.threshold = Level.ALL;
         this.host = new Configuration().getUdpHost();
         this.port = new Configuration().getUdpPort();
-        this.version = "1.1";
+        this.version = "1.0";
         this.facility = "gelf-log4j";
         this.extractStackTrace = "true";
         this.filterStackTrace = true;
