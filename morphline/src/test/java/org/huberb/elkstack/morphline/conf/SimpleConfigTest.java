@@ -24,12 +24,16 @@ import org.junit.After;
 import static org.junit.Assert.assertNotNull;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
  * @author berni3
  */
 public class SimpleConfigTest {
+
+    private final Logger logger = LoggerFactory.getLogger(SimpleConfigTest.class.getName());
 
     public SimpleConfigTest() {
     }
@@ -50,7 +54,7 @@ public class SimpleConfigTest {
         assertNotNull(config);
 
         ConfigRenderOptions configRenderOptions = ConfigRenderOptions.defaults().setOriginComments(false);
-        System.out.printf("%s:\n%s\n", "testParseJson", config.root().render(configRenderOptions));
+        logger_debug("testParseJson", config.root().render(configRenderOptions));
     }
 
     @Test
@@ -61,7 +65,7 @@ public class SimpleConfigTest {
         assertNotNull(config);
 
         ConfigRenderOptions configRenderOptions = ConfigRenderOptions.defaults().setOriginComments(false);
-        System.out.printf("%s:\n%s\n", "testParseProperties", config.root().render(configRenderOptions));
+        logger_debug("testParseProperties", config.root().render(configRenderOptions));
     }
 
     @Test
@@ -72,7 +76,7 @@ public class SimpleConfigTest {
         assertNotNull(config);
 
         ConfigRenderOptions configRenderOptions = ConfigRenderOptions.defaults().setOriginComments(false);
-        System.out.printf("%s:\n%s\n", "testParseConf", config.root().render(configRenderOptions));
+        logger_debug("testParseConf", config.root().render(configRenderOptions));
     }
 
     @Test
@@ -87,8 +91,9 @@ public class SimpleConfigTest {
                 .setFormatted(true)
                 .setJson(false)
                 .setOriginComments(false);
-        System.out.printf("%s:\n%s\n", "testParseFlumeProperties", config.root().render(configRenderOptions));
+        logger_debug("testParseFlumeProperties", config.root().render(configRenderOptions));
     }
+
     @Test
     public void testParseServerLogReadMultiLineConf() {
         String resourceConfigJson = "morphline/jbossas7/server_log_readMultiLine.conf";
@@ -101,6 +106,10 @@ public class SimpleConfigTest {
                 .setFormatted(true)
                 .setJson(false)
                 .setOriginComments(false);
-        System.out.printf("%s:\n%s\n", "testParseServerLogReadMultiLineConf", config.root().render(configRenderOptions));
+        logger_debug("testParseServerLogReadMultiLineConf", config.root().render(configRenderOptions));
+    }
+
+    private void logger_debug(String prefix, String message) {
+        logger.debug("{}:\n{}", prefix, message);
     }
 }
