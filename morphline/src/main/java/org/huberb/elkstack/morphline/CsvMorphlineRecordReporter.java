@@ -23,15 +23,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.kitesdk.morphline.api.Record;
 
 /**
- *
+ * A simple csv report for reporting {@link Record}s.
+ * 
  * @author berni3
  */
 public class CsvMorphlineRecordReporter {
 
     private final List<String> keywords;
-    private String FIELD_DELIM = ";";
-    private String VALUE_DELIM = "\"";
-    private String LINE_DELIM = System.lineSeparator();
+    private String fieldDelim = ";";
+    private String valueDelim = "\"";
+    private String lineDelim = System.lineSeparator();
 
     private final AtomicBoolean createdCsvHeader = new AtomicBoolean(false);
 
@@ -48,10 +49,10 @@ public class CsvMorphlineRecordReporter {
 
     public void reportRecordToWriter(Writer w, Record r) throws IOException {
         if (createdCsvHeader.compareAndSet(false, true)) {
-            StringBuilder sb = createCsvHeader();
+            final StringBuilder sb = createCsvHeader();
             w.append(sb);
         }
-        StringBuilder sb = createCsvLineFromRecord(r);
+        final StringBuilder sb = createCsvLineFromRecord(r);
         w.append(sb);
     }
 
@@ -67,7 +68,7 @@ public class CsvMorphlineRecordReporter {
             final StringBuilder sb = createCsvHeader();
             ps.print(sb);
         }
-        StringBuilder sb = createCsvLineFromRecord(r);
+        final StringBuilder sb = createCsvLineFromRecord(r);
         ps.print(sb.toString());
     }
 
@@ -78,34 +79,34 @@ public class CsvMorphlineRecordReporter {
             String v = key;
             v = sanitizeValue(v);
             if (i > 0) {
-                sb.append(FIELD_DELIM);
+                sb.append(fieldDelim);
             }
             appendField(sb, v);
         }
-        sb.append(LINE_DELIM);
+        sb.append(lineDelim);
         return sb;
     }
 
     protected StringBuilder createCsvLineFromRecord(Record r) {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keywords.size(); i++) {
-            String key = keywords.get(i);
-            String v = (String) r.getFirstValue(key);
+            final String key = keywords.get(i);
+            final String v = (String) r.getFirstValue(key);
             if (i > 0) {
-                sb.append(FIELD_DELIM);
+                sb.append(fieldDelim);
             }
             appendField(sb, v);
         }
-        sb.append(LINE_DELIM);
+        sb.append(lineDelim);
         return sb;
     }
 
     StringBuilder appendField(StringBuilder sb, String v) {
         v = sanitizeValue(v);
-        if (VALUE_DELIM != null) {
-            sb.append(VALUE_DELIM);
+        if (valueDelim != null) {
+            sb.append(valueDelim);
             sb.append(v);
-            sb.append(VALUE_DELIM);
+            sb.append(valueDelim);
         } else {
             sb.append(v);
         }
@@ -116,13 +117,13 @@ public class CsvMorphlineRecordReporter {
         if (v == null) {
             v = "";
         }
-        if (VALUE_DELIM != null) {
-            if (v.contains(VALUE_DELIM)) {
-                v = v.replace(VALUE_DELIM, VALUE_DELIM + VALUE_DELIM);
+        if (valueDelim != null) {
+            if (v.contains(valueDelim)) {
+                v = v.replace(valueDelim, valueDelim + valueDelim);
             }
-        } else if (LINE_DELIM != null) {
-            if (v.contains(LINE_DELIM)) {
-                v = v.replace(LINE_DELIM, LINE_DELIM + LINE_DELIM);
+        } else if (lineDelim != null) {
+            if (v.contains(lineDelim)) {
+                v = v.replace(lineDelim, lineDelim + lineDelim);
             }
         }
         return v;

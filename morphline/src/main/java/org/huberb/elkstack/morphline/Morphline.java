@@ -75,60 +75,50 @@ public class Morphline {
         }
 
         public Command build() {
-            Command command;
+            Config config;
 
             if (this.configAsString != null) {
-                command = buildFromConfigAsString(configAsString);
+                config = buildFromConfigAsString(configAsString);
             } else if (this.configAsResource != null) {
-                command = buildFromConfigAsResource(configAsResource);
+                config = buildFromConfigAsResource(configAsResource);
             } else if (this.configAsReader != null) {
                 try {
-                    command = buildFromConfigAsReader(configAsReader);
+                    config = buildFromConfigAsReader(configAsReader);
                 } catch (IOException ioex) {
-                    command = null;
+                    config = null;
                 }
             } else {
-                command = null;
+                config = null;
             }
-            return command;
+
+            final MorphlineContext context = new MorphlineContext.Builder().build();
+//                synchronized (LOCK) {
+//                    ConfigFactory.invalidateCaches();
+//                    config = ConfigFactory.load(config);
+//                    config.checkValid(ConfigFactory.defaultReference()); // eagerly validate aspects of tree config
+//                }
+            Compiler compiler = new Compiler();
+            String morphlineId = null;
+            if (config.hasPath("morphlines")) {
+                config = compiler.find(morphlineId, config, "config");
+            }
+            final Command morphline = compiler.compile(config, context, finalCommand);
+            return morphline;
         }
 
-        Command buildFromConfigAsString(String morphlineDefinition) {
-            final MorphlineContext context = new MorphlineContext.Builder()
-                    .build();
-
+        Config buildFromConfigAsString(String morphlineDefinition) {
             final Config config = ConfigFactory.parseString(configAsString);
-//                synchronized (LOCK) {
-//                    ConfigFactory.invalidateCaches();
-//                    config = ConfigFactory.load(config);
-//                    config.checkValid(ConfigFactory.defaultReference()); // eagerly validate aspects of tree config
-//                }
-            final Command morphline = new Compiler().compile(config, context, finalCommand);
-            return morphline;
+            return config;
         }
 
-        Command buildFromConfigAsResource(String morphlineDefinition) {
-            final MorphlineContext context = new MorphlineContext.Builder().build();
+        Config buildFromConfigAsResource(String morphlineDefinition) {
             final Config config = ConfigFactory.parseResources(morphlineDefinition);
-//                synchronized (LOCK) {
-//                    ConfigFactory.invalidateCaches();
-//                    config = ConfigFactory.load(config);
-//                    config.checkValid(ConfigFactory.defaultReference()); // eagerly validate aspects of tree config
-//                }
-            final Command morphline = new Compiler().compile(config, context, finalCommand);
-            return morphline;
+            return config;
         }
 
-        Command buildFromConfigAsReader(Reader reader) throws IOException {
-            final MorphlineContext context = new MorphlineContext.Builder().build();
+        Config buildFromConfigAsReader(Reader reader) throws IOException {
             final Config config = ConfigFactory.parseReader(reader);
-//            synchronized (LOCK) {
-//                ConfigFactory.invalidateCaches();
-//                config = ConfigFactory.load(config);
-//                config.checkValid(ConfigFactory.defaultReference()); // eagerly validate aspects of tree config
-//            }
-            final Command morphline = new Compiler().compile(config, context, finalCommand);
-            return morphline;
+            return config;
         }
     }
 

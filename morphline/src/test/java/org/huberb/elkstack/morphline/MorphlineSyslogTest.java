@@ -45,9 +45,11 @@ public class MorphlineSyslogTest {
     @Test
     public void testSyslogInline() throws IOException {
 
-        String config = "{\n"
-                + "id : morphline1\n "
-                + "commands : [\n"
+        String config = ""
+                + "morphlines : [\n"
+                + "  {\n"
+                + "    id : morphline1\n "
+                + "    commands : [\n"
                 + "      {\n"
                 + "        # Parse input attachment and emit a record for each input line                \n"
                 + "        readLine {\n"
@@ -74,8 +76,9 @@ public class MorphlineSyslogTest {
                 + "\n"
                 + "      # log the record at INFO level to SLF4J\n"
                 + "      { logInfo { format : \"output record: {}\", args : [\"@{}\"] } }\n"
-                + "]\n"
-                + "}";
+                + "    ]\n"
+                + "  }\n"
+                + "]";
         final MorphlineCommandBuilder b = new MorphlineCommandBuilder().configAsString(config);
         final Command command = b.build();
 

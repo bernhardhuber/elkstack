@@ -22,7 +22,8 @@ import org.kitesdk.morphline.api.Command;
 import org.kitesdk.morphline.api.Record;
 
 /**
- *
+ * A command for collecting {@link Record}s for JUnit tests.
+ * 
  * @author berni3
  */
 public class JunitCommand implements Command {
