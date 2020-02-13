@@ -106,18 +106,18 @@ public class Morphline {
             return morphline;
         }
 
-        Config buildFromConfigAsString(String morphlineDefinition) {
+        Config buildFromConfigAsString(String morphlineDefinitionString) {
             final Config config = ConfigFactory.parseString(configAsString);
             return config;
         }
 
-        Config buildFromConfigAsResource(String morphlineDefinition) {
-            final Config config = ConfigFactory.parseResources(morphlineDefinition);
+        Config buildFromConfigAsResource(String morphlineDefinitionResorce) {
+            final Config config = ConfigFactory.parseResources(morphlineDefinitionResorce);
             return config;
         }
 
-        Config buildFromConfigAsReader(Reader reader) throws IOException {
-            final Config config = ConfigFactory.parseReader(reader);
+        Config buildFromConfigAsReader(Reader morphlineDefinitionReader) throws IOException {
+            final Config config = ConfigFactory.parseReader(morphlineDefinitionReader);
             return config;
         }
     }
