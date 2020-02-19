@@ -11,5 +11,7 @@
     <modules>
         <module>gelf1</module>
         <module>logstash1</module>
+        <module>logmanagercamel</module>
+        <module>morphline</module>
     </modules>
 </project>

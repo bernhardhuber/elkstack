@@ -1,4 +1,4 @@
-# logstash1
+#logstash1
 
 This module provides various logstash configuration files
 in `src/main/resources/conf`.
