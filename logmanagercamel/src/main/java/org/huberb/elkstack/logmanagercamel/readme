@@ -1,0 +1,63 @@
+
+module add 
+--name=com.camelhandler 
+--resource-delimiter=, 
+--resources=camel-handler.jar,camel-core-2.18.2.jar 
+--dependencies=org.slf4j,javax.xml.bind.api,javax.api,sun.jdk
+
+
+<module xmlns="urn:jboss:module:1.1" name="com.camelhandler">
+ 
+    <resources>
+        <resource-root path="camel-handler.jar"/>
+        <resource-root path="camel-core-2.18.2.jar"/>
+    </resources>
+ 
+    <dependencies>
+        <module name="org.slf4j"/>
+        <module name="javax.xml.bind.api"/>
+        <module name="javax.api"/>
+        <module name="sun.jdk"/>
+    </dependencies>
+</module>
+
+<custom-handler name="CamelCoreHandler" class="org.huberb.elkstack.logmanagercamel.CamelCoreHandler" module="com.camelhandler">  
+    <properties>
+        <property name="destination" value="file:/var/log/camel?fileName=server.log" />
+    </properties>
+    <level name="INFO"/>  
+    <formatter>  
+        <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>  
+    </formatter>  
+</custom-handler>
+
+---
+<module xmlns="urn:jboss:module:1.1" name="com.camelhandler">
+ 
+    <resources>
+        <resource-root path="camel-handler.jar"/>
+        <resource-root path="camel-core-2.18.2.jar"/>
+        <resource-root path="camel-jms-2.18.2.jar"/>
+        <resource-root path="activemq-camel-5.13.4.jar" />
+        <resource-root path="activemq-broker-5.13.4.jar" />
+        <resource-root path="activemq-client-5.13.4.jar" />
+        <resource-root path="activemq-pool-5.13.3.jar" />
+    </resources>
+ 
+    <dependencies>
+        <module name="org.slf4j"/>
+        <module name="javax.xml.bind.api"/>
+        <module name="javax.api"/>
+        <module name="sun.jdk"/>
+    </dependencies>
+</module>
+
+<custom-handler name="CamelJmsActiveMqHandler" class="org.huberb.elkstack.logmanagercamel.CamelJmsActiveMqHandler" module="com.camelhandler">  
+    <properties>
+        <property name="destination" value="jms:queue:activemq/queue/ServerLogQueue" />
+    </properties>
+    <level name="INFO"/>  
+    <formatter>  
+        <pattern-formatter pattern="%d{HH:mm:ss,SSS} %-5p [%c] (%t) %s%E%n"/>  
+    </formatter>  
+</custom-handler>
