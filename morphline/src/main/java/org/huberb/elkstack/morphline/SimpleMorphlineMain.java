@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
 import org.apache.commons.cli.ParseException;
 import org.huberb.elkstack.morphline.SimpleMorphlineMainCommandLineOptions.OptionsEnum;
 import org.kitesdk.morphline.api.Command;
@@ -42,7 +41,7 @@ public class SimpleMorphlineMain {
     private static final Logger logger = LoggerFactory.getLogger(SimpleMorphlineMain.class);
 
     /**
-     * Usage: java ... <morphlines.conf> <dataFile1> ... <dataFileN>
+     * Usage: java ... -c <morphlines.conf> <dataFile1> ... <dataFileN>
      */
     public static void main(String[] args) throws IOException, ParseException {
         SimpleMorphlineMain simpleMorphlineMain = new SimpleMorphlineMain();
@@ -70,7 +69,10 @@ public class SimpleMorphlineMain {
         // compile morphlines.conf file on the fly
         final File configFile = new File(conf);
         final MorphlineContext context = new MorphlineContext.Builder().build();
-        final Command morphline = new Compiler().compile(configFile, null, context, null);
+        
+        String morphlineId = null;
+        Command finalChild = new OutputRecordCommand(null);
+        final Command morphline = new Compiler().compile(configFile, morphlineId, context, finalChild);
 
         // process each input data file
         Notifications.notifyBeginTransaction(morphline);

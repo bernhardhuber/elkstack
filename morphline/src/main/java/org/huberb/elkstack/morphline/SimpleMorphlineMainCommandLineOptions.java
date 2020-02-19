@@ -15,9 +15,17 @@
  */
 package org.huberb.elkstack.morphline;
 
+import com.google.common.io.CharStreams;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
@@ -25,6 +33,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -33,7 +43,8 @@ import org.apache.commons.cli.ParseException;
 class SimpleMorphlineMainCommandLineOptions {
 
     public enum OptionsEnum {
-        conf, loglevel, files, continueProcessing
+        conf, loglevel, files,
+        continueProcessing;
     }
 
     public Map<OptionsEnum, Object> parseCommandline(String[] args) throws ParseException {
@@ -51,24 +62,130 @@ class SimpleMorphlineMainCommandLineOptions {
             formatter.printHelp(SimpleMorphlineMain.class.getSimpleName(), header, options, footer, true);
             continueProcessing = false;
         }
-        final String conf = commandLine.getOptionValue("c", "morphline.conf");
+        if (commandLine.hasOption("list-dictionaries")) {
+            new ShowCommands().listDictonaries();
+            continueProcessing = false;
+        }
+        if (commandLine.hasOption("show-dictionaries")) {
+            new ShowCommands().showDictonaries();
+            continueProcessing = false;
+        }
+        if (commandLine.hasOption("list-confs")) {
+            new ShowCommands().listConfs();
+            continueProcessing = false;
+        }
+        if (commandLine.hasOption("show-confs")) {
+            new ShowCommands().showConfs();
+            continueProcessing = false;
+        }
+        final String conf = commandLine.getOptionValue("c", "morphlines.conf");
         final String loglevel = commandLine.getOptionValue("l", "info");
+        //---
         final List<String> argsList = commandLine.getArgList();
         //---
-        final Map<OptionsEnum, Object> m = new HashMap<>();
-        m.put(OptionsEnum.conf, conf);
-        m.put(OptionsEnum.loglevel, loglevel);
-        m.put(OptionsEnum.files, argsList);
-        m.put(OptionsEnum.continueProcessing, continueProcessing);
+        final Map<OptionsEnum, Object> m = new FluentMapBuilder<>()
+                .keyValue(OptionsEnum.conf, conf)
+                .keyValue(OptionsEnum.loglevel, loglevel)
+                .keyValue(OptionsEnum.files, argsList)
+                .keyValue(OptionsEnum.continueProcessing, continueProcessing)
+                .build();
+
         return m;
+    }
+
+    static class FluentMapBuilder<K, V> {
+
+        final Map<K, V> m = new HashMap<>();
+
+        FluentMapBuilder keyValue(K k, V v) {
+            this.m.put(k, v);
+            return this;
+        }
+
+        FluentMapBuilder keyValueIfAbsent(K k, V v) {
+            this.m.putIfAbsent(k, v);
+            return this;
+        }
+
+        Map<K, V> build() {
+            return m;
+        }
     }
 
     protected Options createOptions() {
         final Options options = new Options();
-        options.addOption(Option.builder("c").longOpt("conf").hasArg().argName("file").desc("morphline configuration").build());
-        options.addOption(Option.builder("l").longOpt("loglevel").hasArg().argName("level").desc("logging level ").build());
         options.addOption(Option.builder("h").longOpt("help").desc("show help").build());
+        options.addOption(Option.builder("c").longOpt("conf").hasArg().argName("morphile-conf").desc("morphline configuration").build());
+        options.addOption(Option.builder("l").longOpt("loglevel").hasArg().argName("level").desc("logging level").build());
+        options.addOption(Option.builder().longOpt("list-dictionaries").desc("list packaged morphline dictionaries").build());
+        options.addOption(Option.builder().longOpt("show-dictionaries").desc("show packaged morphline dictionaries").build());
+        options.addOption(Option.builder().longOpt("list-confs").desc("list packaged morphline confs").build());
+        options.addOption(Option.builder().longOpt("show-confs").desc("show packaged morphline confs").build());
         return options;
     }
 
+    static class ShowCommands {
+
+        final List<String> dictionariesResourceList = Arrays.asList(
+                "grok-dictionaries/grok-patterns",
+                "grok-dictionaries/firewalls",
+                "grok-dictionaries/grok-patterns",
+                "grok-dictionaries/java",
+                "grok-dictionaries/linux-syslog",
+                "grok-dictionaries/mcollective",
+                "grok-dictionaries/mcollective-patterns",
+                "grok-dictionaries/nagios",
+                "grok-dictionaries/postgresql",
+                "grok-dictionaries/redis",
+                "grok-dictionaries/ruby"
+        );
+        final List<String> confsResourceList = Arrays.asList(
+                "confs/access_log_readLine.conf",
+                "confs/server_log_readLine.conf",
+                "confs/server_log_readLineTry.conf",
+                "confs/server_log_readMultiLine.conf"
+        );
+
+        void listDictonaries() {
+            String content = dictionariesResourceList.stream().collect(Collectors.joining("\n"));
+            showContent("dictionaries\n" + content);
+        }
+
+        void showDictonaries() {
+            for (String resource : dictionariesResourceList) {
+                try {
+                    xxx(resource);
+                } catch (IOException ioex) {
+                }
+            }
+        }
+
+        void listConfs() {
+            String content = confsResourceList.stream().collect(Collectors.joining("\n"));
+            showContent("dictionaries\n" + content);
+        }
+
+        void showConfs() {
+            for (String resource : confsResourceList) {
+                try {
+                    xxx(resource);
+                } catch (IOException ioex) {
+                }
+            }
+        }
+
+        void xxx(String resource) throws IOException {
+            try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource)) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")))) {
+                    String content = resource + ":\n" + CharStreams.toString(br);
+                    showContent(content);
+                }
+            }
+        }
+
+        void showContent(String content) {
+            Logger showContentLogger = LoggerFactory.getLogger("showContent");
+            showContentLogger.info(content);
+        }
+    }
 }

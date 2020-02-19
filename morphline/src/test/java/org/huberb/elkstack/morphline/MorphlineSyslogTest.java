@@ -51,7 +51,7 @@ public class MorphlineSyslogTest {
                 + "    id : morphline1\n "
                 + "    commands : [\n"
                 + "      {\n"
-                + "        # Parse input attachment and emit a record for each input line                \n"
+                + "        # Parse input attachment and emit a record for each input line\n"
                 + "        readLine {\n"
                 + "          charset : UTF-8\n"
                 + "        }\n"
@@ -67,7 +67,7 @@ public class MorphlineSyslogTest {
                 + "          # specify such a regex name, plus an optional output field name.\n"
                 + "          # The syntax is %{REGEX_NAME:OUTPUT_FIELD_NAME}\n"
                 + "          # The input line is expected in the \"message\" input field.\n"
-                + "          dictionaryFiles : [src/test/resources/grok-dictionaries]\n"
+                + "          dictionaryFiles : [ target/classes/grok-dictionaries ]\n"
                 + "          expressions : {\n"
                 + "            message : \"\"\"<%{POSINT:priority}>%{SYSLOGTIMESTAMP:timestamp} %{SYSLOGHOST:hostname} %{DATA:program}(?:\\[%{POSINT:pid}\\])?: %{GREEDYDATA:msg}\"\"\"\n"
                 + "          }\n"
@@ -84,7 +84,7 @@ public class MorphlineSyslogTest {
 
         final MorphlineSimpleProcessor processor = new MorphlineSimpleProcessor(command);
 
-        String lines = "<164>Feb  4 10:46:14 syslog sshd[607]: listening on 0.0.0.0 port 22.";
+        final String lines = "<164>Feb  4 10:46:14 syslog sshd[607]: listening on 0.0.0.0 port 22.";
         try (InputStream is = new ByteArrayInputStream(lines.getBytes())) {
             processor.process(is);
         }

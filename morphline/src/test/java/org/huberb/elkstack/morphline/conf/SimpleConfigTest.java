@@ -106,9 +106,12 @@ public class SimpleConfigTest {
                 .setFormatted(true)
                 .setJson(false)
                 .setOriginComments(false);
-        logger_debug("testParseServerLogReadMultiLineConf", config.root().render(configRenderOptions));
+        logger_info("testParseServerLogReadMultiLineConf", config.root().render(configRenderOptions));
     }
 
+    private void logger_info(String prefix, String message) {
+        logger.info("{}:\n{}", prefix, message);
+    }
     private void logger_debug(String prefix, String message) {
         logger.debug("{}:\n{}", prefix, message);
     }
