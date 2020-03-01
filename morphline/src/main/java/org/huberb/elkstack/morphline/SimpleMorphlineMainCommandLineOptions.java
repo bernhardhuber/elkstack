@@ -33,6 +33,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.huberb.elkstack.morphline.SimpleMorphlineMainCommandLineOptions.ConfsCommands;
+import org.huberb.elkstack.morphline.SimpleMorphlineMainCommandLineOptions.DictonariesCommands;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -63,19 +65,19 @@ class SimpleMorphlineMainCommandLineOptions {
             continueProcessing = false;
         }
         if (commandLine.hasOption("list-dictionaries")) {
-            new ShowCommands().listDictonaries();
+            new DictonariesCommands().listDictonaries();
             continueProcessing = false;
         }
         if (commandLine.hasOption("show-dictionaries")) {
-            new ShowCommands().showDictonaries();
+            new DictonariesCommands().showDictonaries();
             continueProcessing = false;
         }
         if (commandLine.hasOption("list-confs")) {
-            new ShowCommands().listConfs();
+            new ConfsCommands().listConfs();
             continueProcessing = false;
         }
         if (commandLine.hasOption("show-confs")) {
-            new ShowCommands().showConfs();
+            new ConfsCommands().showConfs();
             continueProcessing = false;
         }
         final String conf = commandLine.getOptionValue("c", "morphlines.conf");
@@ -124,7 +126,7 @@ class SimpleMorphlineMainCommandLineOptions {
         return options;
     }
 
-    static class ShowCommands {
+    static class DictonariesCommands {
 
         final List<String> dictionariesResourceList = Arrays.asList(
                 "grok-dictionaries/grok-patterns",
@@ -139,6 +141,25 @@ class SimpleMorphlineMainCommandLineOptions {
                 "grok-dictionaries/redis",
                 "grok-dictionaries/ruby"
         );
+
+        void listDictonaries() {
+            String content = dictionariesResourceList.stream().collect(Collectors.joining("\n"));
+            new ShowSupport().showStringContent("dictionaries\n" + content);
+        }
+
+        void showDictonaries() {
+            for (String resource : dictionariesResourceList) {
+                try {
+                    new ShowSupport().showResourceContent(resource);
+                } catch (IOException ioex) {
+                }
+            }
+        }
+
+    }
+
+    static class ConfsCommands {
+
         final List<String> confsResourceList = Arrays.asList(
                 "confs/access_log_readLine.conf",
                 "confs/server_log_readLine.conf",
@@ -146,44 +167,33 @@ class SimpleMorphlineMainCommandLineOptions {
                 "confs/server_log_readMultiLine.conf"
         );
 
-        void listDictonaries() {
-            String content = dictionariesResourceList.stream().collect(Collectors.joining("\n"));
-            showContent("dictionaries\n" + content);
-        }
-
-        void showDictonaries() {
-            for (String resource : dictionariesResourceList) {
-                try {
-                    xxx(resource);
-                } catch (IOException ioex) {
-                }
-            }
-        }
-
         void listConfs() {
             String content = confsResourceList.stream().collect(Collectors.joining("\n"));
-            showContent("dictionaries\n" + content);
+            new ShowSupport().showStringContent("dictionaries\n" + content);
         }
 
         void showConfs() {
             for (String resource : confsResourceList) {
                 try {
-                    xxx(resource);
+                    new ShowSupport().showResourceContent(resource);
                 } catch (IOException ioex) {
                 }
             }
         }
+    }
 
-        void xxx(String resource) throws IOException {
+    static class ShowSupport {
+
+        void showResourceContent(String resource) throws IOException {
             try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(resource)) {
                 try (BufferedReader br = new BufferedReader(new InputStreamReader(is, Charset.forName("UTF-8")))) {
                     String content = resource + ":\n" + CharStreams.toString(br);
-                    showContent(content);
+                    showStringContent(content);
                 }
             }
         }
 
-        void showContent(String content) {
+        void showStringContent(String content) {
             Logger showContentLogger = LoggerFactory.getLogger("showContent");
             showContentLogger.info(content);
         }
