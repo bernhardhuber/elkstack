@@ -17,6 +17,7 @@ import javax.naming.NamingException;
 /**
  *
  * @author berni3
+ * @param <T>
  */
 public class NamingLookupBuilder<T> {
 

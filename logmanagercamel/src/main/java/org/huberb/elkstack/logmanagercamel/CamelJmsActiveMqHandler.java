@@ -19,6 +19,7 @@ import javax.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
 import org.apache.camel.CamelExecutionException;
 import org.apache.camel.component.jms.JmsComponent;
+import org.apache.camel.support.DefaultEndpoint;
 
 /**
  *
@@ -75,7 +76,7 @@ public class CamelJmsActiveMqHandler extends Handler {
         }
         try {
             final Map<String, Object> headers = new HeadersFromLogRecordBuilder().logRecord(record).build();
-            h.getTemplate().sendBodyAndHeader("direct:logger", record.getMessage(), headers);
+            h.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
         } catch (CamelExecutionException cexecex) {
             LOG.log(Level.WARNING, "publish " + record, cexecex);
         }
@@ -83,13 +84,15 @@ public class CamelJmsActiveMqHandler extends Handler {
 
     @Override
     public void flush() {
-        // TODO Auto-generated method stub
+        // TODO Auto-generated method stub        
     }
 
     @Override
     public void close() throws SecurityException {
         try {
-            h.close();
+            if (this.h != null) {
+                h.close();
+            }
         } catch (IOException e) {
             LOG.log(Level.WARNING, "close", e);
         }

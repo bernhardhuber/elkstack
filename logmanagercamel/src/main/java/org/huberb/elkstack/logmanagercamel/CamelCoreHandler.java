@@ -35,7 +35,6 @@ public class CamelCoreHandler extends Handler {
 
     public void setDestination(String destination) {
         this.destination = destination;
-        init();
     }
 
     private void init() {
@@ -55,9 +54,12 @@ public class CamelCoreHandler extends Handler {
 
     @Override
     public void publish(LogRecord record) {
+        if (this.h == null) {
+            init();
+        }
         try {
             final Map<String, Object> headers = new HeadersFromLogRecordBuilder().logRecord(record).build();
-            this.h.getTemplate().sendBodyAndHeader("direct:logger", record.getMessage(), headers);
+            this.h.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
         } catch (CamelExecutionException ceex) {
             LOG.log(Level.WARNING, "publish " + record, ceex);
         }
@@ -71,7 +73,9 @@ public class CamelCoreHandler extends Handler {
     @Override
     public void close() throws SecurityException {
         try {
-            this.h.close();
+            if (this.h != null) {
+                this.h.close();
+            }
         } catch (IOException e) {
             LOG.log(Level.WARNING, "close", e);
         }

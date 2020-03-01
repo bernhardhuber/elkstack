@@ -48,7 +48,6 @@ public class CamelLoggingAdapter implements Closeable {
             } catch (Exception e) {
                 LOG.log(Level.WARNING, "camelContext close", e);
             }
-
         }
     }
 
