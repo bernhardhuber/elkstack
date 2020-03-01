@@ -9,6 +9,13 @@
     <groupId>org.huberb.elkstack.morphline</groupId>
     <artifactId>morphline</artifactId>
     <packaging>jar</packaging>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+    
     <dependencies>
         <!--dependency>
             <groupId>org.kitesdk</groupId>
@@ -45,11 +52,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
 
     <build>
         <plugins>
