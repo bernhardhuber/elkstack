@@ -36,6 +36,8 @@ import org.kitesdk.morphline.api.Record;
  */
 public class WildflyServerLogReadMultiLineFileTest {
 
+    private static final String MORPHLINE_WILDFLY_SERVER_LOG_TXT = "morphline/wildfly/server.log.txt";
+
     private JunitCommand junitCommand;
 
     public WildflyServerLogReadMultiLineFileTest() {
@@ -59,7 +61,7 @@ public class WildflyServerLogReadMultiLineFileTest {
         final Command command = morphlineCommandBuilder.build();
         final Morphline.MorphlineSimpleProcessor morphlineSimpleProcessor = new Morphline.MorphlineSimpleProcessor(command);
 
-        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("morphline/wildfly/server.log")) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(MORPHLINE_WILDFLY_SERVER_LOG_TXT)) {
             boolean success = morphlineSimpleProcessor.process(is);
             assertTrue(success == true);
         }

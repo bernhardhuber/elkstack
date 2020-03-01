@@ -36,6 +36,8 @@ import org.kitesdk.morphline.api.Record;
  */
 public class WildflyAccessLogTest {
 
+    private static final String MORPHLINE_WILDFLY_ACCESSLOG_LOG_TXT = "morphline/wildfly/access_log.log.txt";
+
     private JunitCommand junitCommand;
 
     public WildflyAccessLogTest() {
@@ -136,7 +138,7 @@ public class WildflyAccessLogTest {
         final Command command = morphlineCommandBuilder.build();
         final Morphline.MorphlineSimpleProcessor morphlineSimpleProcessor = new Morphline.MorphlineSimpleProcessor(command);
 
-        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("morphline/wildfly/access_log.log")) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(MORPHLINE_WILDFLY_ACCESSLOG_LOG_TXT)) {
             boolean success = morphlineSimpleProcessor.process(is);
             assertEquals(true, success);
         }

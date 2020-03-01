@@ -38,6 +38,8 @@ import org.kitesdk.morphline.api.Record;
  */
 public class JBossAs7ServerLogReadMultiLineFileTest {
 
+    private static final String MORPHLINE_JBOSSAS7_SERVER_LOG_TXT = "morphline/jbossas7/server.log.txt";
+
     private JunitCommand junitCommand;
 
     public JBossAs7ServerLogReadMultiLineFileTest() {
@@ -61,7 +63,7 @@ public class JBossAs7ServerLogReadMultiLineFileTest {
         final Command command = morphlineCommandBuilder.build();
         final Morphline.MorphlineSimpleProcessor morphlineSimpleProcessor = new Morphline.MorphlineSimpleProcessor(command);
 
-        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream("morphline/jbossas7/server.log")) {
+        try (InputStream is = this.getClass().getClassLoader().getResourceAsStream(MORPHLINE_JBOSSAS7_SERVER_LOG_TXT)) {
             boolean success = morphlineSimpleProcessor.process(is);
             assertTrue(success == true);
         }

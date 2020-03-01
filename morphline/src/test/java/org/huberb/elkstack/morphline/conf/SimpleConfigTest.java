@@ -112,6 +112,7 @@ public class SimpleConfigTest {
     private void logger_info(String prefix, String message) {
         logger.info("{}:\n{}", prefix, message);
     }
+
     private void logger_debug(String prefix, String message) {
         logger.debug("{}:\n{}", prefix, message);
     }

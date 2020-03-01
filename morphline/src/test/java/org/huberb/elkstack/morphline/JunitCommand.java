@@ -23,7 +23,7 @@ import org.kitesdk.morphline.api.Record;
 
 /**
  * A command for collecting {@link Record}s for JUnit tests.
- * 
+ *
  * @author berni3
  */
 public class JunitCommand implements Command {
@@ -55,7 +55,7 @@ public class JunitCommand implements Command {
     }
 
     public List<Record> getRecordList() {
-        List<Record> result =Collections.unmodifiableList(recordList);
+        List<Record> result = Collections.unmodifiableList(recordList);
         return result;
     }
 
