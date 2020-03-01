@@ -60,8 +60,8 @@ public class CamelCoreHandler extends Handler {
         try {
             final Map<String, Object> headers = new HeadersFromLogRecordBuilder().logRecord(record).build();
             this.h.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
-        } catch (CamelExecutionException ceex) {
-            LOG.log(Level.WARNING, "publish " + record, ceex);
+        } catch (CamelExecutionException caxex) {
+            LOG.log(Level.WARNING, "publish " + record, caxex);
         }
     }
 

@@ -77,8 +77,8 @@ public class CamelJmsActiveMqHandler extends Handler {
         try {
             final Map<String, Object> headers = new HeadersFromLogRecordBuilder().logRecord(record).build();
             h.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
-        } catch (CamelExecutionException cexecex) {
-            LOG.log(Level.WARNING, "publish " + record, cexecex);
+        } catch (CamelExecutionException caxex) {
+            LOG.log(Level.WARNING, "publish " + record, caxex);
         }
     }
 

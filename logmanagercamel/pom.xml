@@ -15,7 +15,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <!--camel.version>2.25.0</camel.version-->
         <camel.version>3.0.1</camel.version>
-        <amq-client.version>5.15.9</amq-client.version>
+        <amq-client.version>5.15.10</amq-client.version>
     </properties>
 
     <dependencyManagement>
