@@ -7,6 +7,7 @@ package org.huberb.elkstack.logmanagercamel;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicStampedReference;
 import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
@@ -23,8 +24,9 @@ import org.apache.camel.impl.DefaultCamelContext;
 public class CamelCoreHandler extends Handler {
 
     private static final Logger LOG = Logger.getLogger(CamelCoreHandler.class.getName());
-
-    private CamelLoggingAdapter h;
+    private AtomicStampedReference<CamelLoggingAdapter> arh = new AtomicStampedReference(null, 0);
+    private Object lock = new Object();
+    //private CamelLoggingAdapter h;
 
     // Set on WildFly
     private String destination;
@@ -37,7 +39,8 @@ public class CamelCoreHandler extends Handler {
         this.destination = destination;
     }
 
-    private void init() {
+    private CamelLoggingAdapter setupCamelLoggingAdapter() {
+        CamelLoggingAdapter result;
         final CamelContext camelContext = new DefaultCamelContext();
         final RouteBuilder routeBuilder = new RouteBuilder() {
             @Override
@@ -46,20 +49,34 @@ public class CamelCoreHandler extends Handler {
             }
         };
         try {
-            this.h = new CamelLoggingAdapter.F().create(camelContext, routeBuilder);
+            result = new CamelLoggingAdapter.F().create(camelContext, routeBuilder);
         } catch (Exception ex) {
             LOG.log(Level.WARNING, "init", ex);
+            result = null;
         }
+        return result;
     }
 
     @Override
     public void publish(LogRecord record) {
-        if (this.h == null) {
-            init();
+        final int initTries = 5;
+        if (arh.getReference() == null) {
+            synchronized (lock) {
+                int stamp = arh.getStamp();
+                if (stamp < initTries) {
+                    final CamelLoggingAdapter cla = setupCamelLoggingAdapter();
+                    stamp += 1;
+                    arh.set(cla, stamp);
+                } else {
+                    return;
+                }
+            }
         }
+
         try {
+            final CamelLoggingAdapter cla = arh.getReference();
             final Map<String, Object> headers = new HeadersFromLogRecordBuilder().logRecord(record).build();
-            this.h.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
+            cla.getTemplate().sendBodyAndHeaders("direct:logger", record.getMessage(), headers);
         } catch (CamelExecutionException caxex) {
             LOG.log(Level.WARNING, "publish " + record, caxex);
         }
@@ -73,11 +90,14 @@ public class CamelCoreHandler extends Handler {
     @Override
     public void close() throws SecurityException {
         try {
-            if (this.h != null) {
-                this.h.close();
+            CamelLoggingAdapter cla = arh.getReference();
+            if (cla != null) {
+                cla.close();
             }
         } catch (IOException e) {
             LOG.log(Level.WARNING, "close", e);
+        } finally {
+            arh.set(null, 0);
         }
     }
 
