@@ -24,15 +24,15 @@ import org.kitesdk.morphline.api.Record;
 
 /**
  * A simple csv report for reporting {@link Record}s.
- * 
+ *
  * @author berni3
  */
 public class CsvMorphlineRecordReporter {
 
     private final List<String> keywords;
-    private String fieldDelim = ";";
-    private String valueDelim = "\"";
-    private String lineDelim = System.lineSeparator();
+    private final String fieldDelim = ";";
+    private final String valueDelim = "\"";
+    private final String lineDelim = System.lineSeparator();
 
     private final AtomicBoolean createdCsvHeader = new AtomicBoolean(false);
 
@@ -75,9 +75,8 @@ public class CsvMorphlineRecordReporter {
     protected StringBuilder createCsvHeader() {
         final StringBuilder sb = new StringBuilder();
         for (int i = 0; i < keywords.size(); i++) {
-            String key = keywords.get(i);
-            String v = key;
-            v = sanitizeValue(v);
+            final String key = keywords.get(i);
+            final String v = sanitizeValue(key);
             if (i > 0) {
                 sb.append(fieldDelim);
             }

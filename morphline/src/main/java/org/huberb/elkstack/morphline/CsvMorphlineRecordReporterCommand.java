@@ -26,12 +26,12 @@ import org.kitesdk.morphline.api.Record;
  *
  * @author berni3
  */
-public class OutputRecordCommand implements Command {
+public class CsvMorphlineRecordReporterCommand implements Command {
 
-    private Command parent;
-    private CsvMorphlineRecordReporter csvMorphlineRecordReporter;
+    private final Command parent;
+    private final CsvMorphlineRecordReporter csvMorphlineRecordReporter;
 
-    public OutputRecordCommand(Command parent) {
+    public CsvMorphlineRecordReporterCommand(Command parent) {
         this.parent = parent;
         List<String> keywords = Arrays.asList(
                 "timestamp",

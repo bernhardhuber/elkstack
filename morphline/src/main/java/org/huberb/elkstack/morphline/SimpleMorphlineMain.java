@@ -71,7 +71,7 @@ public class SimpleMorphlineMain {
         final MorphlineContext context = new MorphlineContext.Builder().build();
         
         String morphlineId = null;
-        Command finalChild = new OutputRecordCommand(null);
+        Command finalChild = new CsvMorphlineRecordReporterCommand(null);
         final Command morphline = new Compiler().compile(configFile, morphlineId, context, finalChild);
 
         // process each input data file
